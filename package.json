@@ -1,0 +1,12 @@
+{
+    "name": "Chat",
+    "version": "1.0.0",
+    "dependencies": {
+      "express": "~4.14.0",
+      "ejs": "~2.5.5",
+      "ent": "~2.2.0",
+      "socket.io": "~1.7.2"
+    },
+    "author": "Nathan <nathanjaunet44@email.com>",
+    "description": "Un chat ultra basique"
+}

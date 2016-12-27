@@ -1,0 +1,21 @@
+html {
+  height: 100%;
+}
+
+#form_chat {
+  width: 100%;
+  padding: 10px 0;
+}
+
+#form_user {
+  width: 100%;
+  padding: 10px 0;
+}
+
+#chat{
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  height: 200px;
+  overflow-y: scroll;
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Index</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="alert alert-warning" style="display: <%= full %>;">
+          <strong>Attention !</strong> Le salon au quel vous tentez d'accéder est plein
+        </div>
+        <center>
+          <h1>Un super chat en temps réel</h1>
+        </center>
+          <div>
+            <form class="form-horizontal" id="form_user" autocomplete="off">
+              <div class="form-group">
+                <label class="control-label col-sm-1">Pseudo : </label>
+                <div class="col-sm-10">
+                  <input id="pseudo" class="form-control" type="text" ="Saisissez un pseudo" size="20"></input>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-1">Salon : </label>
+                <div class="col-sm-10">
+                <select id="listRooms" class="form-control" size="1"></select>
+              </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-1 col-sm-10">
+                  <input type="submit" class="btn btn-default" id="send_message" value="Envoyer"></input>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="/js/index.js"></script>
+    </body>
+</html>
