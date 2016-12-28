@@ -8,4 +8,3 @@ npm install
 Go in your browers and go to :
 http://localhost:8080
 
-Chat with NodeJS
