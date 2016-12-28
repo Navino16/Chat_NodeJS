@@ -1,5 +1,7 @@
 # Chat_NodeJS
 
+Install NodeJS
+
 Go in the chat directory and launch in a console :
 npm install
 
