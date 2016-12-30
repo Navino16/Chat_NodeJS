@@ -2,20 +2,59 @@ html {
   height: 100%;
 }
 
+body {
+  background: #fafafa;
+}
+
+.header {
+  text-align: center;
+  background: #fff;
+  border-bottom: 1px solid black;
+  padding: 10px
+}
+
 #form_chat {
   width: 100%;
-  padding: 10px 0;
+  padding: 30px 20px 10px 20px;
 }
 
 #form_user {
-  width: 100%;
-  padding: 10px 0;
+  padding: 30px 20px 10px 20px;
 }
 
 #chat{
+  border-radius: 8px 8px 8px 8px;
   width: 100%;
   border: 1px solid #ccc;
   border-radius: 2px;
   height: 200px;
   overflow-y: scroll;
+  padding: 3px 3px 0px 3px;
+}
+
+#divChat{
+  padding: 10px 20px 10px 20px;
+}
+
+.list_users{
+  height: 200px;
+  overflow-y: scroll;
+}
+
+.right{
+  text-align: right;
+  margin-left: 13em;
+}
+
+.left{
+  text-align: left;
+}
+
+.container {
+    background: #fff;
+    padding: 0px 20px 20px 20px;
+    border-width: 0px 1px 1px 1px;
+    border-style: solid;
+    border-color: #ddd;
+    border-radius: 0px 0px 8px 8px;
 }
