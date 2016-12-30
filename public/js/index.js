@@ -1,15 +1,29 @@
 var socket = io.connect("/lobby");
 var pseudo = "guest" + Math.floor((Math.random() * 1000) + 1);
+$("#pseudo").attr("placeholder", pseudo)
 socket.emit('nouveau_client_lobby', pseudo);
 
 socket.once('connect', function () {
 
+  socket.on('connected', function (res) {
+    $(".title").append(res.title);
+  });
+
   socket.on('nouveau_client_lobby', function(data) {
-    $("#pseudo").attr("placeholder", data.pseudo)
+    var x = 1;
+    $("#listRooms").find("option").remove().end();
     data.rooms.forEach(function (room) {
-      if (room != 'lobby')
-        $("#listRooms").append("<option>"+room+"</option>")
-    })
+      if (room != 'lobby') {
+        $("#room" + x).find("em").remove().end();
+        $("#users_room" + x).find("p").remove().end();
+        $("#listRooms").append("<option>"+room+"</option>");
+        $("#room" + x).append("<em class='left'>" + room + "</em><em class='right'>" + data.users[room][0] + "</em>");
+        for (var i = 1; i < data.users[room].length; i++) {
+          $("#users_room" + x).append("<p>" + data.users[room][i] + "</p>");
+        }
+        x++;
+      }
+    });
   });
 
   socket.on('disconnect', function () {
