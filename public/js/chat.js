@@ -8,13 +8,14 @@ document.title = pseudo + ' - ' + document.title;
 socket.once('connect', function () {
 
   socket.on('connected', function (res) {
+    $(".title").append(res.title);
     for (var i = 0; i < res.messages.length; i++) {
-      insereMessage(res.messages[i].pseudo, res.messages[i].text);
+      insereMessage(res.messages[i].pseudo, res.messages[i].text, res.messages[i].time);
     }
   });
 
   socket.on('message', function(data) {
-    insereMessage(data.pseudo, data.message)
+    insereMessage(data.pseudo, data.text, data.time)
   });
 
   socket.on('nouveau_client', function(new_user) {
@@ -44,15 +45,21 @@ socket.on('reconnect', function () {
 
 $('#form_chat').submit(function () {
   var message = $('#message').val();
-  socket.emit('message', message);
-  insereMessage(pseudo, message);
+  var date = new Date();
+  time = date.getHours() + ":" + date.getMinutes() + ":";
+  if (date.getSeconds() < 10)
+   time += "0" + date.getSeconds();
+  else
+   time += date.getSeconds();
+  socket.emit('message', {message: message, time: time});
+  insereMessage(pseudo, message, time);
   chatButton.prop("disabled", true);
   $('#message').val('').focus();
   return false;
 });
 
-function insereMessage(pseudo, message) {
-  $('#chat').append('<p><b>' + pseudo + ':</b> ' + message + '</p>');
+function insereMessage(pseudo, message, time) {
+  $('#chat').append('<p><i>' + time  + '</i>-<b>' + pseudo + ':</b> ' + message + '</p>');
   var elem = document.getElementById('chat');
   elem.scrollTop = elem.scrollHeight;
 }
