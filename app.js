@@ -45,7 +45,7 @@ rooms.forEach(function (room) {
   messages[room] = [];
   clients[room] = {};
   clients[room].client = [];
-  clients[room].max = 2;
+  clients[room].max = 20;
   clients[room].curent = 0;
   io.of("/" + room).on("connection", function (socket, pseudo) {
 
@@ -60,19 +60,22 @@ rooms.forEach(function (room) {
         var tmp = {pseudo: pseudo, socket: socket};
         clients[room].client.push(tmp);
         listClient();
+        var users = getListClients();
+        io.of("/lobby").emit("nouveau_client_lobby", {rooms: rooms, users: users});
       }
       else {
         socket.emit("room_full");
       }
     });
 
-    socket.on("message", function (message) {
+    socket.on("message", function (data) {
       var message = {
+        time: ent.encode(data.time),
         pseudo: socket.pseudo,
-        text: ent.encode(message)
+        text: ent.encode(data.message)
       };
       messages[room].push(message);
-      socket.broadcast.emit("message", {pseudo: socket.pseudo, message: message.text})
+      socket.broadcast.emit("message", message)
     });
 
     socket.on('disconnect', function() {
@@ -86,12 +89,15 @@ rooms.forEach(function (room) {
         socket.broadcast.emit("client_leave", socket.pseudo);
       clients[room].curent--;
       listClient();
-   });
+      var users = getListClients();
+      io.of("/lobby").emit("nouveau_client_lobby", {rooms: rooms, users: users});
+    });
 
    socket.on("nouveau_client_lobby", function (pseudo) {
      pseudo = ent.encode(pseudo);
      socket.pseudo = pseudo;
-     socket.emit("nouveau_client_lobby", {pseudo: pseudo, rooms: rooms, });
+     var users = getListClients();
+     socket.emit("nouveau_client_lobby", {rooms: rooms, users: users});
      var tmp = {pseudo: pseudo, socket: socket};
      clients[room].client.push(tmp);
      clients[room].curent++;
@@ -122,4 +128,22 @@ function isInList(id) {
   }
   return false;
 }
+
+function getListClients() {
+  var list = {};
+  for (var i = 1; i < rooms.length; i++) {
+    var room = rooms[i];
+    list[room] = [];
+    list[room][0] = clients[room].curent + "/" + clients[room].max;
+    for (var j = 0; j < clients[room].client.length; j++) {
+      list[room][j + 1] = clients[room].client[j].pseudo;
+    }
+  }
+  return list;
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 server.listen(8080, "127.0.0.1");
